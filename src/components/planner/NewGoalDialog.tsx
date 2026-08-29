@@ -67,17 +67,16 @@ export function NewGoalDialog({
 
   const submit = () => {
     if (!title.trim()) return;
-    onCreate({
-      id: `g-${Date.now()}`,
-      type,
-      title: title.trim(),
-      description: description.trim() || undefined,
-      parentId: parentId === "none" ? undefined : parentId,
-      target: needsTarget ? Number(target) || undefined : undefined,
-      current: needsTarget ? 0 : undefined,
-      history: type === "habit" ? Array.from({ length: 28 }, () => false) : undefined,
-      milestones: type === "learning" ? [] : undefined,
-    });
+    const goal: Goal = { id: `g-${Date.now()}`, type, title: title.trim() };
+    if (description.trim()) goal.description = description.trim();
+    if (parentId !== "none") goal.parentId = parentId;
+    if (needsTarget) {
+      goal.target = Number(target) || 0;
+      goal.current = 0;
+    }
+    if (type === "habit") goal.history = Array.from({ length: 28 }, () => false);
+    if (type === "learning") goal.milestones = [];
+    onCreate(goal);
     reset();
     onOpenChange(false);
   };
