@@ -10,18 +10,18 @@ export type Goal = {
   id: string;
   type: GoalType;
   title: string;
-  description?: string;
+  description?: string | undefined;
   /** Life goals are standalone anchors; plans may point at one. */
-  parentId?: string;
+  parentId?: string | undefined;
   /** habit: target days, outcome: target R, process: target %, learning: n/a */
-  target?: number;
-  current?: number;
+  target?: number | undefined;
+  current?: number | undefined;
   /** last 28 days of completion for habit rows */
-  history?: boolean[];
-  milestones?: Milestone[];
-  source?: string;
-  dueDate?: string;
-  done?: boolean;
+  history?: boolean[] | undefined;
+  milestones?: Milestone[] | undefined;
+  source?: string | undefined;
+  dueDate?: string | undefined;
+  done?: boolean | undefined;
 };
 
 export const GOAL_TYPE_META: Record<
