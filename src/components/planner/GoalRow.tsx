@@ -1,6 +1,7 @@
 import { ChevronRight } from "lucide-react";
 import { TypeChip } from "./TypeChip";
 import { DayStrip } from "./DayStrip";
+import { RadialProgress } from "./RadialProgress";
 import type { Goal } from "@/lib/planner-types";
 import { cn } from "@/lib/utils";
 
