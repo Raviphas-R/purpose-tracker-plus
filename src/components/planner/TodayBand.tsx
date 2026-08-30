@@ -1,5 +1,6 @@
 import { Check } from "lucide-react";
 import { Heatmap, HeatmapLegend } from "./Heatmap";
+import { RadialProgress } from "./RadialProgress";
 import type { Goal } from "@/lib/planner-types";
 import { GOAL_TYPE_META } from "@/lib/planner-types";
 import { cn } from "@/lib/utils";
