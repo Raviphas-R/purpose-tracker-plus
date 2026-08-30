@@ -34,6 +34,13 @@ export const Route = createFileRoute("/")({
 
 const FILTERS: (GoalType | "all")[] = ["all", "life", "outcome", "learning", "process", "habit"];
 
+/** A life goal's ring is the mean of the plans that feed it. */
+function rollup(items: Goal[]) {
+  const pcts = items.map((g) => goalProgress(g)?.pct).filter((p): p is number => p != null);
+  if (!pcts.length) return 0;
+  return pcts.reduce((a, b) => a + b, 0) / pcts.length;
+}
+
 function buildHeat(goals: Goal[]) {
   const habits = goals.filter((g) => g.type === "habit" && g.history);
   const total = 26 * 7;
