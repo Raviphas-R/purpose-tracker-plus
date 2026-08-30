@@ -3,7 +3,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Plus, Target } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { TodayBand, type TodayItem } from "@/components/planner/TodayBand";
-import { GoalRow } from "@/components/planner/GoalRow";
+import { GoalRow, goalProgress } from "@/components/planner/GoalRow";
+import { RadialProgress } from "@/components/planner/RadialProgress";
 import { TypeChip } from "@/components/planner/TypeChip";
 import { NewGoalDialog } from "@/components/planner/NewGoalDialog";
 import { GOAL_TYPE_META, SEED_GOALS, type Goal, type GoalType } from "@/lib/planner-types";
@@ -32,6 +33,13 @@ export const Route = createFileRoute("/")({
 });
 
 const FILTERS: (GoalType | "all")[] = ["all", "life", "outcome", "learning", "process", "habit"];
+
+/** A life goal's ring is the mean of the plans that feed it. */
+function rollup(items: Goal[]) {
+  const pcts = items.map((g) => goalProgress(g)?.pct).filter((p): p is number => p != null);
+  if (!pcts.length) return 0;
+  return pcts.reduce((a, b) => a + b, 0) / pcts.length;
+}
 
 function buildHeat(goals: Goal[]) {
   const habits = goals.filter((g) => g.type === "habit" && g.history);
@@ -174,9 +182,17 @@ function PlannerPage() {
                         </p>
                       )}
                     </div>
-                    <span className="num rounded-full bg-muted px-2.5 py-1 text-xs text-muted-foreground">
-                      {group.items.length} plans
-                    </span>
+                    <div className="flex items-center gap-3">
+                      <span className="num text-xs text-muted-foreground">
+                        {group.items.length} plans
+                      </span>
+                      <RadialProgress
+                        pct={rollup(group.items)}
+                        type="life"
+                        size={48}
+                        thickness={5}
+                      />
+                    </div>
                   </div>
                 ) : null
               ) : (

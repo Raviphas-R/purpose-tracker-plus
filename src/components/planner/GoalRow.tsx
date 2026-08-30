@@ -1,6 +1,7 @@
 import { ChevronRight } from "lucide-react";
 import { TypeChip } from "./TypeChip";
 import { DayStrip } from "./DayStrip";
+import { RadialProgress } from "./RadialProgress";
 import type { Goal } from "@/lib/planner-types";
 import { cn } from "@/lib/utils";
 
@@ -87,15 +88,10 @@ export function GoalRow({
 
         {progress && (
           <div className="flex w-52 shrink-0 items-center justify-end gap-3">
-            <div className="hidden h-1.5 w-24 overflow-hidden rounded-full bg-grid sm:block">
-              <div
-                className="h-full rounded-full bg-primary transition-all"
-                style={{ width: `${progress.pct}%` }}
-              />
-            </div>
             <span className="num text-xs whitespace-nowrap text-muted-foreground">
               {progress.label}
             </span>
+            <RadialProgress pct={progress.pct} type={goal.type} size={40} thickness={4} />
           </div>
         )}
       </div>

@@ -1,5 +1,6 @@
 import { Check } from "lucide-react";
 import { Heatmap, HeatmapLegend } from "./Heatmap";
+import { RadialProgress } from "./RadialProgress";
 import type { Goal } from "@/lib/planner-types";
 import { GOAL_TYPE_META } from "@/lib/planner-types";
 import { cn } from "@/lib/utils";
@@ -40,17 +41,35 @@ export function TodayBand({
             things done today
           </p>
         </div>
-        <div className="flex items-center gap-8">
-          <div className="text-right">
-            <p className="text-[11px] tracking-widest uppercase text-muted-foreground">Active</p>
-            <p className="num text-xl font-semibold">
-              {activeDays}
-              <span className="text-muted-foreground">/{targetDays}</span>
-            </p>
+        <div className="flex items-center gap-6">
+          <div className="flex items-center gap-3">
+            <RadialProgress
+              pct={items.length ? (doneCount / items.length) * 100 : 0}
+              size={64}
+              thickness={6}
+              label={`${doneCount}/${items.length}`}
+            />
+            <div>
+              <p className="text-[11px] tracking-widest uppercase text-muted-foreground">Today</p>
+              <p className="text-sm text-muted-foreground">kept</p>
+            </div>
           </div>
-          <div className="text-right">
-            <p className="text-[11px] tracking-widest uppercase text-muted-foreground">Streak</p>
-            <p className="num text-xl font-semibold text-success">{streak}d</p>
+          <div className="flex items-center gap-3">
+            <RadialProgress
+              pct={targetDays ? (activeDays / targetDays) * 100 : 0}
+              size={64}
+              thickness={6}
+              color="var(--process)"
+              label={`${activeDays}`}
+            />
+            <div>
+              <p className="text-[11px] tracking-widest uppercase text-muted-foreground">
+                Active days
+              </p>
+              <p className="num text-sm text-muted-foreground">
+                of {targetDays} · {streak}d streak
+              </p>
+            </div>
           </div>
         </div>
       </header>
