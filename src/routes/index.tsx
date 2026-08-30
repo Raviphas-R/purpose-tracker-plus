@@ -174,9 +174,17 @@ function PlannerPage() {
                         </p>
                       )}
                     </div>
-                    <span className="num rounded-full bg-muted px-2.5 py-1 text-xs text-muted-foreground">
-                      {group.items.length} plans
-                    </span>
+                    <div className="flex items-center gap-3">
+                      <span className="num text-xs text-muted-foreground">
+                        {group.items.length} plans
+                      </span>
+                      <RadialProgress
+                        pct={rollup(group.items)}
+                        type="life"
+                        size={48}
+                        thickness={5}
+                      />
+                    </div>
                   </div>
                 ) : null
               ) : (
